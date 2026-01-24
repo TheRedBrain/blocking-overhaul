@@ -1,0 +1,40 @@
+{
+	"schemaVersion": 1,
+	"id": "blockingoverhaul",
+	"version": "${version}",
+	"name": "Blocking Overhaul",
+	"description": "Overhauls attack blocking and adds a parry mechanic",
+	"authors": [
+		"TheRedBrain"
+	],
+	"contact": {
+		"sources": "https://github.com/TheRedBrain/blocking-overhaul"
+	},
+	"license": "MIT",
+	"icon": "assets/blockingoverhaul/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.github.theredbrain.blockingoverhaul.BlockingOverhaul"
+		],
+		"client": [
+			"com.github.theredbrain.blockingoverhaul.BlockingOverhaulClient"
+		]
+	},
+	"mixins": [
+		"blockingoverhaul.mixins.json",
+		{
+			"config": "blockingoverhaul.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"minecraft": "${minecraft_version}",
+		"fabricloader": ">=${loader_version}",
+		"fabric-api": "*",
+		"fzzy_config": ">=${fzzy_config_version}"
+	},
+	"suggests": {
+		"staminaattributes": "*"
+	}
+}

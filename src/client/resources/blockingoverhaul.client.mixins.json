@@ -1,0 +1,10 @@
+{
+	"required": true,
+	"package": "com.github.theredbrain.blockingoverhaul.mixin.client",
+	"compatibilityLevel": "JAVA_21",
+	"client": [
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}
