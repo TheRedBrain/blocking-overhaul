@@ -1,5 +1,6 @@
 package com.github.theredbrain.blockingoverhaul;
 
+import com.github.theredbrain.blockingoverhaul.compatibility.OverhauledDamageIntegration;
 import com.github.theredbrain.blockingoverhaul.compatibility.StaminaAttributesIntegration;
 import com.github.theredbrain.blockingoverhaul.component.type.ParriesAttacksDataComponent;
 import com.github.theredbrain.blockingoverhaul.config.ServerConfig;
@@ -59,7 +60,10 @@ public class BlockingOverhaul implements ModInitializer {
 	}
 
 	public static boolean isOverhauledDamageOverrideActive() {
-		return isOverhauledDamageLoaded;
+		if (isOverhauledDamageLoaded) {
+			return OverhauledDamageIntegration.isBlockingOverhaulActive();
+		}
+		return false;
 	}
 
 	@Override
