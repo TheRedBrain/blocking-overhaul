@@ -19,7 +19,6 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.BlocksAttacks;
 import net.minecraft.world.level.Level;
@@ -65,17 +64,7 @@ public abstract class LivingEntityMixin extends Entity implements DuckLivingEnti
     protected void blockingoverhaul$takeShieldHit(LivingEntity instance, ServerLevel world, LivingEntity attacker, Operation<Void> original, @Local(argsOnly = true) DamageSource source, @Local ItemStack itemStack) {
         if (!BlockingOverhaul.isOverhauledDamageOverrideActive()) {
             if (BlockingOverhaul.SERVER_CONFIG.enable_blocking_knockback_overhaul.get()) {
-                boolean parried = LivingEntityHelper.canParry(instance, source, itemStack);
-                double parryBlockForceMultiplierMultiplier = itemStack.getOrDefault(BlockingOverhaul.PARRIES_ATTACKS, ParriesAttacksDataComponent.DEFAULT).multiplier_applies_to_knockback() ? ((DuckLivingEntityMixin) instance).blockingoverhaul$getParryMultiplier() : 1.0;
-                BlockingOverhaul.applyBlockAttackStaminaCost(instance, parried);
-                double applied_knock_back = ((((DuckLivingEntityMixin) instance).blockingoverhaul$getBlockForce() * parryBlockForceMultiplierMultiplier) - attacker.getAttributeValue(Attributes.ATTACK_KNOCKBACK)) * BlockingOverhaul.SERVER_CONFIG.total_block_force_multiplier.get();
-                if (applied_knock_back != 0.0) {
-                    if (BlockingOverhaul.SERVER_CONFIG.knockback_from_blocking_always_targets_attacker.get() || applied_knock_back > 0.0) {
-                        attacker.knockback(applied_knock_back, attacker.getX() - instance.getX(), attacker.getZ() - instance.getZ());
-                    } else {
-                        instance.knockback(applied_knock_back, instance.getX() - attacker.getX(), instance.getZ() - attacker.getZ());
-                    }
-                }
+                LivingEntityHelper.applyBlockingKnockback(world, instance, attacker, source, itemStack);
             } else {
                 original.call(instance, world, attacker);
             }
