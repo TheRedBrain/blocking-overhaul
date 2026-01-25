@@ -13,12 +13,14 @@ import net.minecraft.world.entity.LivingEntity;
 
 public record ParriesAttacksDataComponent(
         boolean multiplier_applies_to_knockback,
+        boolean multiplier_applies_to_damage,
         Optional<Holder<SoundEvent>> parry_sound
 ) {
-    public static final ParriesAttacksDataComponent DEFAULT = new ParriesAttacksDataComponent(true, Optional.empty());
+    public static final ParriesAttacksDataComponent DEFAULT = new ParriesAttacksDataComponent(true, true, Optional.empty());
     public static final Codec<ParriesAttacksDataComponent> CODEC = RecordCodecBuilder.create(
             instance -> instance.group(
                             Codec.BOOL.optionalFieldOf("multiplier_applies_to_knockback", true).forGetter(ParriesAttacksDataComponent::multiplier_applies_to_knockback),
+                            Codec.BOOL.optionalFieldOf("multiplier_applies_to_damage", true).forGetter(ParriesAttacksDataComponent::multiplier_applies_to_damage),
                             SoundEvent.CODEC.optionalFieldOf("parry_sound").forGetter(ParriesAttacksDataComponent::parry_sound)
                     )
                     .apply(instance, ParriesAttacksDataComponent::new)
@@ -26,6 +28,8 @@ public record ParriesAttacksDataComponent(
     public static final StreamCodec<RegistryFriendlyByteBuf, ParriesAttacksDataComponent> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.BOOL,
             ParriesAttacksDataComponent::multiplier_applies_to_knockback,
+            ByteBufCodecs.BOOL,
+            ParriesAttacksDataComponent::multiplier_applies_to_damage,
             SoundEvent.STREAM_CODEC.apply(ByteBufCodecs::optional),
             ParriesAttacksDataComponent::parry_sound,
             ParriesAttacksDataComponent::new

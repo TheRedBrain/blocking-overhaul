@@ -53,6 +53,13 @@ public class BlockingOverhaul implements ModInitializer {
 		}
 	}
 
+	public static boolean blockingRequiresStamina() {
+		if (isStaminaAttributesLoaded) {
+			return StaminaAttributesIntegration.blockingRequiresStamina();
+		}
+		return false;
+	}
+
 	public static void applyBlockAttackStaminaCost(LivingEntity livingEntity, boolean parried) {
 		if (isStaminaAttributesLoaded) {
 			StaminaAttributesIntegration.applyBlockAttackStaminaCost(livingEntity, parried);

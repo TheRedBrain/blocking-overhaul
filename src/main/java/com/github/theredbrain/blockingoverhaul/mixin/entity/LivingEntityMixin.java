@@ -63,8 +63,8 @@ public abstract class LivingEntityMixin extends Entity implements DuckLivingEnti
     @WrapOperation(method = "applyItemBlocking", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;blockUsingItem(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/entity/LivingEntity;)V"))
     protected void blockingoverhaul$takeShieldHit(LivingEntity instance, ServerLevel world, LivingEntity attacker, Operation<Void> original, @Local(argsOnly = true) DamageSource source, @Local ItemStack itemStack) {
         if (!BlockingOverhaul.isOverhauledDamageOverrideActive()) {
-            if (BlockingOverhaul.SERVER_CONFIG.enable_blocking_knockback_overhaul.get()) {
-                LivingEntityHelper.applyBlockingKnockback(world, instance, attacker, source, itemStack);
+            if (BlockingOverhaul.SERVER_CONFIG.enable_blocking_overhaul.get()) {
+                LivingEntityHelper.applyOverhauledItemBlocking(instance, attacker, source, itemStack);
             } else {
                 original.call(instance, world, attacker);
             }
@@ -77,11 +77,11 @@ public abstract class LivingEntityMixin extends Entity implements DuckLivingEnti
     )
     public float blockingoverhaul$wrap_applyItemBlocking(LivingEntity instance, ServerLevel world, DamageSource source, float amount, Operation<Float> original, @Local ItemStack itemStack) {
 
-        if (BlockingOverhaul.isOverhauledDamageOverrideActive() || !(BlockingOverhaul.getCurrentStamina(instance) > 0 || !BlockingOverhaul.SERVER_CONFIG.blocking_requires_stamina.get() || !BlockingOverhaul.isStaminaAttributesLoaded)) {
+        if (BlockingOverhaul.isOverhauledDamageOverrideActive() || !(BlockingOverhaul.getCurrentStamina(instance) > 0 || !BlockingOverhaul.blockingRequiresStamina() || !BlockingOverhaul.isStaminaAttributesLoaded)) {
             return 0.0F;
         } else {
             float parryMultiplier = 1.0F;
-            if (BlockingOverhaul.SERVER_CONFIG.parrying_multiplies_blocked_damage.get() && LivingEntityHelper.canParry(instance, source, itemStack)) {
+            if (BlockingOverhaul.SERVER_CONFIG.parrying_multiplies_blocked_damage.get() && LivingEntityHelper.canParry(instance, source, itemStack) && itemStack.getOrDefault(BlockingOverhaul.PARRIES_ATTACKS, ParriesAttacksDataComponent.DEFAULT).multiplier_applies_to_damage()) {
                 parryMultiplier = ((DuckLivingEntityMixin)instance).blockingoverhaul$getParryMultiplier();
             }
             return original.call(instance, world, source, amount) * parryMultiplier;
