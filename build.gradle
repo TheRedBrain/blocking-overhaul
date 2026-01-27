@@ -58,6 +58,10 @@ dependencies {
 	modImplementation "maven.modrinth:stamina-attributes:${project.stamina_attributes_version}"
 //    modImplementation(files("libs/stamina-attributes-${project.stamina_attributes_version}.jar"))
 
+	// Overhauled Damage
+//	modImplementation "maven.modrinth:overhauled-damage:${project.overhauled_damage_version}"
+    modImplementation(files("libs/overhauled-damage-${project.overhauled_damage_version}.jar"))
+
 	// Resource Bar API
 	modImplementation "maven.modrinth:resource-bar-api:${project.resource_bar_api_version}"
 //    modImplementation(files("libs/resource-bar-api-${project.resource_bar_api_version}.jar"))

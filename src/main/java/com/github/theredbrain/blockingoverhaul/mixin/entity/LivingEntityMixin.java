@@ -93,8 +93,8 @@ public abstract class LivingEntityMixin extends Entity implements DuckLivingEnti
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/component/BlocksAttacks;onBlocked(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/entity/LivingEntity;)V")
     )
     public void blockingoverhaul$wrap_onBlocked(BlocksAttacks instance, ServerLevel serverLevel, LivingEntity livingEntity, Operation<Void> original, @Local(argsOnly = true) DamageSource damageSource, @Local ItemStack itemStack) {
-        if (LivingEntityHelper.canParry(livingEntity, damageSource, itemStack)) {
-            itemStack.getOrDefault(BlockingOverhaul.PARRIES_ATTACKS, ParriesAttacksDataComponent.DEFAULT).onParried(serverLevel, livingEntity);
+        if (BlockingOverhaul.SERVER_CONFIG.enable_blocking_overhaul.get()) {
+            BlockingOverhaul.playBlockingSoundEvent(serverLevel, livingEntity, itemStack, LivingEntityHelper.canParry(livingEntity, damageSource, itemStack));
         } else {
             original.call(instance, serverLevel, livingEntity);
         }

@@ -12,12 +12,16 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.BlocksAttacks;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,6 +54,17 @@ public class BlockingOverhaul implements ModInitializer {
 	public static void addStamina(LivingEntity livingEntity, float amount) {
 		if (isStaminaAttributesLoaded) {
 			StaminaAttributesIntegration.addStamina(livingEntity, amount);
+		}
+	}
+
+	public static void playBlockingSoundEvent(ServerLevel serverLevel, LivingEntity livingEntity, ItemStack itemStack, boolean parried) {
+		if (parried) {
+			itemStack.getOrDefault(BlockingOverhaul.PARRIES_ATTACKS, ParriesAttacksDataComponent.DEFAULT).onParried(serverLevel, livingEntity);
+		} else {
+			BlocksAttacks blocksAttacks = itemStack.get(DataComponents.BLOCKS_ATTACKS);
+			if (blocksAttacks != null) {
+				blocksAttacks.onBlocked(serverLevel, livingEntity);
+			}
 		}
 	}
 
