@@ -18,6 +18,8 @@ Instead, the knockback is more dynamic, where knockback amount and affected enti
 
 > ((defender_block_force * defender_parry_multiplier) - (attacker_attack_knockback + additional_attack_knockback)) * total_applied_blocking_knockback_multiplier
 
+If the result of the calculation is negative, the knockback is applied to the defender. If it's positive, the knockback is applied to the attacker.
+
 ## Changes to blocked damage amount
 
 Parrying can also apply the multiplier determined by the "blockingoverhaul:parry_multiplier" entity attribute to the amount of blocked damage. This can be disabled by the server config and/or the item used for blocking.
