@@ -48,6 +48,6 @@ public class LivingEntityHelper {
 	public static double getAppliedBlockingKnockback(LivingEntity defender, LivingEntity attacker, ItemStack blockingItemStack, boolean parried, double additionalAttackKnockback) {
 		ServerConfig serverConfig = BlockingOverhaul.SERVER_CONFIG;
 		double parryBlockForceMultiplier = parried && blockingItemStack.getOrDefault(BlockingOverhaul.PARRIES_ATTACKS, ParriesAttacksDataComponent.DEFAULT).multiplier_applies_to_knockback() && serverConfig.parrying_multiplies_knockback.get() ? ((DuckLivingEntityMixin) defender).blockingoverhaul$getParryMultiplier() : 1.0;
-		return ((((DuckLivingEntityMixin) defender).blockingoverhaul$getBlockForce() * parryBlockForceMultiplier) - (attacker.getAttributeValue(Attributes.ATTACK_KNOCKBACK) + additionalAttackKnockback)) * serverConfig.total_block_force_multiplier.get();
+		return ((((DuckLivingEntityMixin) defender).blockingoverhaul$getBlockForce() * parryBlockForceMultiplier) - (attacker.getAttributeValue(Attributes.ATTACK_KNOCKBACK) + additionalAttackKnockback)) * serverConfig.total_applied_blocking_knockback_multiplier.get();
 	}
 }

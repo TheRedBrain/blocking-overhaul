@@ -77,16 +77,19 @@ public abstract class LivingEntityMixin extends Entity implements DuckLivingEnti
     )
     public float blockingoverhaul$wrap_applyItemBlocking(LivingEntity instance, ServerLevel world, DamageSource source, float amount, Operation<Float> original, @Local ItemStack itemStack) {
 
-        if (BlockingOverhaul.isOverhauledDamageOverrideActive() || !BlockingOverhaul.currentStaminaAllowsBlocking(instance)) {
-            return 0.0F;
-        } else {
-            float parryMultiplier = 1.0F;
-            if (BlockingOverhaul.SERVER_CONFIG.parrying_multiplies_blocked_damage.get() && LivingEntityHelper.canParry(instance, source, itemStack) && itemStack.getOrDefault(BlockingOverhaul.PARRIES_ATTACKS, ParriesAttacksDataComponent.DEFAULT).multiplier_applies_to_damage()) {
-                parryMultiplier = ((DuckLivingEntityMixin)instance).blockingoverhaul$getParryMultiplier();
-            }
-            return original.call(instance, world, source, amount) * parryMultiplier;
+		float parryMultiplier = 1.0F;
+
+        if (BlockingOverhaul.SERVER_CONFIG.enable_blocking_overhaul.get()) {
+			if (BlockingOverhaul.isOverhauledDamageOverrideActive() || !BlockingOverhaul.currentStaminaAllowsBlocking(instance)) {
+				return 0.0F;
+			} else {
+				if (BlockingOverhaul.SERVER_CONFIG.parrying_multiplies_blocked_damage.get() && LivingEntityHelper.canParry(instance, source, itemStack) && itemStack.getOrDefault(BlockingOverhaul.PARRIES_ATTACKS, ParriesAttacksDataComponent.DEFAULT).multiplier_applies_to_damage()) {
+					parryMultiplier = ((DuckLivingEntityMixin)instance).blockingoverhaul$getParryMultiplier();
+				}
+			}
         }
-    }
+		return original.call(instance, world, source, amount) * parryMultiplier;
+	}
 
     @WrapOperation(
             method = "hurtServer",

@@ -12,9 +12,10 @@ public class ServerConfig extends Config {
     }
 
     public ValidatedBoolean enable_blocking_overhaul = new ValidatedBoolean(true);
+
     public ValidatedBoolean parrying_multiplies_blocked_damage = new ValidatedBoolean(true);
     public ValidatedBoolean parrying_multiplies_knockback = new ValidatedBoolean(true);
-    public ValidatedFloat total_block_force_multiplier = new ValidatedFloat(1.0F);
+    public ValidatedFloat total_applied_blocking_knockback_multiplier = new ValidatedFloat(1.0F);
 
     public ValidatedFloat natural_block_force = new ValidatedFloat(0.0F);
     public ValidatedFloat natural_parry_multiplier = new ValidatedFloat(1.0F);
