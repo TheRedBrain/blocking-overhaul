@@ -19,15 +19,13 @@ public class LivingEntityHelper {
 
 	public static void applyOverhauledItemBlocking(LivingEntity defender, LivingEntity attacker, DamageSource damageSource, ItemStack blockingItemStack) {
 		Vec3 vec3 = defender.getDeltaMovement();
-		ServerConfig serverConfig = BlockingOverhaul.SERVER_CONFIG;
 		boolean parried = canParry(defender, damageSource, blockingItemStack);
 
 		// stamina cost
 		BlockingOverhaul.applyBlockAttackStaminaCost(defender, parried);
 
 		// knockback
-		double parryBlockForceMultiplier = parried && blockingItemStack.getOrDefault(BlockingOverhaul.PARRIES_ATTACKS, ParriesAttacksDataComponent.DEFAULT).multiplier_applies_to_knockback() && serverConfig.parrying_multiplies_knockback.get() ? ((DuckLivingEntityMixin) defender).blockingoverhaul$getParryMultiplier() : 1.0;
-		double applied_knock_back = ((((DuckLivingEntityMixin) defender).blockingoverhaul$getBlockForce() * parryBlockForceMultiplier) - attacker.getAttributeValue(Attributes.ATTACK_KNOCKBACK)) * serverConfig.total_block_force_multiplier.get();
+		double applied_knock_back = getAppliedBlockingKnockback(defender, attacker, blockingItemStack, parried, 0.0);
 		if (applied_knock_back != 0.0) {
 			if (applied_knock_back > 0.0) {
 				attacker.knockback(Math.abs(applied_knock_back), defender.getX() - attacker.getX(), defender.getZ() - attacker.getZ());
@@ -45,5 +43,11 @@ public class LivingEntityHelper {
 				}
 			}
 		}
+	}
+
+	public static double getAppliedBlockingKnockback(LivingEntity defender, LivingEntity attacker, ItemStack blockingItemStack, boolean parried, double additionalAttackKnockback) {
+		ServerConfig serverConfig = BlockingOverhaul.SERVER_CONFIG;
+		double parryBlockForceMultiplier = parried && blockingItemStack.getOrDefault(BlockingOverhaul.PARRIES_ATTACKS, ParriesAttacksDataComponent.DEFAULT).multiplier_applies_to_knockback() && serverConfig.parrying_multiplies_knockback.get() ? ((DuckLivingEntityMixin) defender).blockingoverhaul$getParryMultiplier() : 1.0;
+		return ((((DuckLivingEntityMixin) defender).blockingoverhaul$getBlockForce() * parryBlockForceMultiplier) - (attacker.getAttributeValue(Attributes.ATTACK_KNOCKBACK) + additionalAttackKnockback)) * serverConfig.total_block_force_multiplier.get();
 	}
 }

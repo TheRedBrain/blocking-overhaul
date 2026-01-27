@@ -77,7 +77,7 @@ public abstract class LivingEntityMixin extends Entity implements DuckLivingEnti
     )
     public float blockingoverhaul$wrap_applyItemBlocking(LivingEntity instance, ServerLevel world, DamageSource source, float amount, Operation<Float> original, @Local ItemStack itemStack) {
 
-        if (BlockingOverhaul.isOverhauledDamageOverrideActive() || !(BlockingOverhaul.getCurrentStamina(instance) > 0 || !BlockingOverhaul.blockingRequiresStamina() || !BlockingOverhaul.isStaminaAttributesLoaded)) {
+        if (BlockingOverhaul.isOverhauledDamageOverrideActive() || !BlockingOverhaul.currentStaminaAllowsBlocking(instance)) {
             return 0.0F;
         } else {
             float parryMultiplier = 1.0F;
@@ -103,7 +103,9 @@ public abstract class LivingEntityMixin extends Entity implements DuckLivingEnti
     @Inject(method = "tick", at = @At("TAIL"))
     public void blockingoverhaul$tick(CallbackInfo ci) {
         if (!this.level().isClientSide()) {
+            // apply natural attribute modifiers
             this.getAttributes().addTransientAttributeModifiers(getNaturalAttributeModifiers());
+            // update blocking time
             if (this.isBlocking()) {
                 this.blockingoverhaul$setBlockingTime(this.blockingoverhaul$getBlockingTime() + 1);
             } else if (this.blockingoverhaul$getBlockingTime() > 0) {
