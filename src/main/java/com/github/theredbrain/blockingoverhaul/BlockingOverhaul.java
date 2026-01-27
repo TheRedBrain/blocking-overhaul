@@ -1,6 +1,5 @@
 package com.github.theredbrain.blockingoverhaul;
 
-import com.github.theredbrain.blockingoverhaul.compatibility.OverhauledDamageIntegration;
 import com.github.theredbrain.blockingoverhaul.compatibility.StaminaAttributesIntegration;
 import com.github.theredbrain.blockingoverhaul.component.type.ParriesAttacksDataComponent;
 import com.github.theredbrain.blockingoverhaul.config.ServerConfig;
@@ -41,7 +40,6 @@ public class BlockingOverhaul implements ModInitializer {
 	public static DataComponentType<ParriesAttacksDataComponent> PARRIES_ATTACKS;
 
 	public static final boolean isStaminaAttributesLoaded = FabricLoader.getInstance().isModLoaded("staminaattributes");
-	public static final boolean isOverhauledDamageLoaded = FabricLoader.getInstance().isModLoaded("overhauleddamage");
 
 	public static float getCurrentStamina(LivingEntity livingEntity) {
 		float currentStamina = 0.0F;
@@ -79,13 +77,6 @@ public class BlockingOverhaul implements ModInitializer {
 		if (isStaminaAttributesLoaded) {
 			StaminaAttributesIntegration.applyBlockAttackStaminaCost(livingEntity, parried);
 		}
-	}
-
-	public static boolean isOverhauledDamageOverrideActive() {
-		if (isOverhauledDamageLoaded) {
-			return OverhauledDamageIntegration.isBlockingOverhaulActive();
-		}
-		return false;
 	}
 
 	@Override

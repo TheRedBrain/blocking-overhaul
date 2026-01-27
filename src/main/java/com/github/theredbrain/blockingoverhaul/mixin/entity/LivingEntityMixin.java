@@ -61,13 +61,11 @@ public abstract class LivingEntityMixin extends Entity implements DuckLivingEnti
     }
 
     @WrapOperation(method = "applyItemBlocking", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;blockUsingItem(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/entity/LivingEntity;)V"))
-    protected void blockingoverhaul$takeShieldHit(LivingEntity instance, ServerLevel world, LivingEntity attacker, Operation<Void> original, @Local(argsOnly = true) DamageSource source, @Local ItemStack itemStack) {
-        if (!BlockingOverhaul.isOverhauledDamageOverrideActive()) {
-            if (BlockingOverhaul.SERVER_CONFIG.enable_blocking_overhaul.get()) {
-                LivingEntityHelper.applyOverhauledItemBlocking(instance, attacker, source, itemStack);
-            } else {
-                original.call(instance, world, attacker);
-            }
+    protected void blockingoverhaul$applyItemBlocking(LivingEntity instance, ServerLevel world, LivingEntity attacker, Operation<Void> original, @Local(argsOnly = true) DamageSource source, @Local ItemStack itemStack) {
+        if (BlockingOverhaul.SERVER_CONFIG.enable_blocking_overhaul.get()) {
+            LivingEntityHelper.applyOverhauledItemBlocking(instance, attacker, source, itemStack);
+        } else {
+            original.call(instance, world, attacker);
         }
     }
 
@@ -80,7 +78,7 @@ public abstract class LivingEntityMixin extends Entity implements DuckLivingEnti
 		float parryMultiplier = 1.0F;
 
         if (BlockingOverhaul.SERVER_CONFIG.enable_blocking_overhaul.get()) {
-			if (BlockingOverhaul.isOverhauledDamageOverrideActive() || !BlockingOverhaul.currentStaminaAllowsBlocking(instance)) {
+			if (!BlockingOverhaul.currentStaminaAllowsBlocking(instance)) {
 				return 0.0F;
 			} else {
 				if (BlockingOverhaul.SERVER_CONFIG.parrying_multiplies_blocked_damage.get() && LivingEntityHelper.canParry(instance, source, itemStack) && itemStack.getOrDefault(BlockingOverhaul.PARRIES_ATTACKS, ParriesAttacksDataComponent.DEFAULT).multiplier_applies_to_damage()) {
