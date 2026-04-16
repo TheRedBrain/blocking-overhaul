@@ -46,7 +46,7 @@ public record ParriesAttacksDataComponent(
                                 holder,
                                 livingEntity.getSoundSource(),
                                 1.0F,
-                                0.8F + serverLevel.random.nextFloat() * 0.4F
+                                0.8F + serverLevel.getRandom().nextFloat() * 0.4F
                         )
                 );
     }
