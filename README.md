@@ -2,7 +2,7 @@
 
 Overhauls blocking attacks by adding a parry mechanic and changing several mechanics to be entity attribute - driven.
 
-When blocking is started just before a hit, the attack is parried. The length (in ticks) of that time window is determined by the "blockingoverhaul:parry_window" entity attribute.
+When blocking is started just before a hit, the attack is parried. The length (in ticks) of that time window is determined by the **_blockingoverhaul:parry_window_** entity attribute.
 
 ## Changes to knockback on blocking/parrying
 
@@ -10,9 +10,9 @@ Blocking/parrying an attack no longer applies a hardcoded amount of knockback to
 
 Instead, the knockback is more dynamic, where knockback amount and affected entity (attacker or defender) are determined by several factors.
 
-- "blockingoverhaul:block_force" entity attribute of the defender
-- "blockingoverhaul:parry_multiplier" entity attribute of the defender. This multiplier can be disabled by the server config and/or the item used for blocking.
-- "minecraft:attack_knockback" entity attribute of the defender
+- **_blockingoverhaul:block_force_** entity attribute of the defender
+- **_blockingoverhaul:parry_multiplier_** entity attribute of the defender. This multiplier can be disabled by the server config and/or the item used for blocking.
+- **_minecraft:attack_knockback_** entity attribute of the attacker
 - an "additional_attack_knockback", which is 0 by default. Other mods that use Blocking Overhaul (like Overhauled Damage) can use this value to modify the calculation
 - a "total_applied_blocking_knockback_multiplier", which is a server config option
 
@@ -20,9 +20,11 @@ Instead, the knockback is more dynamic, where knockback amount and affected enti
 
 If the result of the calculation is negative, the knockback is applied to the defender. If it's positive, the knockback is applied to the attacker.
 
+Since the knockback is applied using the vanilla method, the affected entity's **_minecraft:knockback_resistance_** entity attribute has an effect.
+
 ## Changes to blocked damage amount
 
-Parrying can also apply the multiplier determined by the "blockingoverhaul:parry_multiplier" entity attribute to the amount of blocked damage. This can be disabled by the server config and/or the item used for blocking.
+Parrying can also apply the multiplier determined by the **_blockingoverhaul:parry_multiplier_** entity attribute to the amount of blocked damage. This can be disabled by the server config and/or the item used for blocking.
 
 ## Technical details
 
@@ -37,4 +39,4 @@ Parrying has several conditions:
 
 ## Stamina Attributes integration
 
-Blocking Overhaul has integration for Stamina Attributes, parrying an attack has a different stamina cost than regular blocking, determined by the "blockingoverhaul:parry_stamina_cost" entity attribute.
+Blocking Overhaul has integration for Stamina Attributes, parrying an attack has a different stamina cost than regular blocking, determined by the **_blockingoverhaul:parry_stamina_cost_** entity attribute.
