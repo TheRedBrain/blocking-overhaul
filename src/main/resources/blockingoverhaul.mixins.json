@@ -4,7 +4,8 @@
 	"compatibilityLevel": "JAVA_25",
 	"mixins": [
 		"entity.LivingEntityMixin",
-		"entity.attribute.EntityAttributesMixin"
+		"entity.attribute.AttributesMixin",
+		"entity.player.PlayerMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

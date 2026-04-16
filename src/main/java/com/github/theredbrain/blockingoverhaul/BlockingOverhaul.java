@@ -34,7 +34,6 @@ public class BlockingOverhaul implements ModInitializer {
 	public static Holder<Attribute> BLOCK_FORCE;
 	public static Holder<Attribute> PARRY_MULTIPLIER;
 	public static Holder<Attribute> PARRY_WINDOW;
-
 	public static Holder<Attribute> PARRY_STAMINA_COST;
 
 	public static DataComponentType<ParriesAttacksDataComponent> PARRIES_ATTACKS;

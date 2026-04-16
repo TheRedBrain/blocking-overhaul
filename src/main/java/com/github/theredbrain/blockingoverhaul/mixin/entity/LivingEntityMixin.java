@@ -2,10 +2,8 @@ package com.github.theredbrain.blockingoverhaul.mixin.entity;
 
 import com.github.theredbrain.blockingoverhaul.BlockingOverhaul;
 import com.github.theredbrain.blockingoverhaul.component.type.ParriesAttacksDataComponent;
-import com.github.theredbrain.blockingoverhaul.config.ServerConfig;
 import com.github.theredbrain.blockingoverhaul.entity.DuckLivingEntityMixin;
 import com.github.theredbrain.blockingoverhaul.entity.LivingEntityHelper;
-import com.google.common.collect.HashMultimap;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
@@ -16,8 +14,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeMap;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.BlocksAttacks;
@@ -37,9 +33,6 @@ public abstract class LivingEntityMixin extends Entity implements DuckLivingEnti
     public abstract double getAttributeValue(Holder<Attribute> attribute);
 
     @Shadow
-    public abstract AttributeMap getAttributes();
-
-    @Shadow
     public abstract boolean isBlocking();
 
     @Unique
@@ -55,7 +48,6 @@ public abstract class LivingEntityMixin extends Entity implements DuckLivingEnti
                 .add(BlockingOverhaul.BLOCK_FORCE)
                 .add(BlockingOverhaul.PARRY_MULTIPLIER)
                 .add(BlockingOverhaul.PARRY_WINDOW)
-
                 .add(BlockingOverhaul.PARRY_STAMINA_COST)
         ;
     }
@@ -104,9 +96,6 @@ public abstract class LivingEntityMixin extends Entity implements DuckLivingEnti
     @Inject(method = "tick", at = @At("TAIL"))
     public void blockingoverhaul$tick(CallbackInfo ci) {
         if (!this.level().isClientSide()) {
-            // apply natural attribute modifiers
-            this.getAttributes().addTransientAttributeModifiers(getNaturalAttributeModifiers());
-            // update blocking time
             if (this.isBlocking()) {
                 this.blockingoverhaul$setBlockingTime(this.blockingoverhaul$getBlockingTime() + 1);
             } else if (this.blockingoverhaul$getBlockingTime() > 0) {
@@ -143,17 +132,6 @@ public abstract class LivingEntityMixin extends Entity implements DuckLivingEnti
     @Override
     public void blockingoverhaul$setBlockingTime(int blockingTime) {
         this.blockingTime = blockingTime;
-    }
-
-    @Unique
-    private HashMultimap<Holder<Attribute>, AttributeModifier> getNaturalAttributeModifiers() {
-        ServerConfig serverConfig = BlockingOverhaul.SERVER_CONFIG;
-        HashMultimap<Holder<Attribute>, AttributeModifier> hashMultimap = HashMultimap.create();
-        hashMultimap.put(BlockingOverhaul.BLOCK_FORCE, new AttributeModifier(BlockingOverhaul.identifier("natural_block_force_modifier"), serverConfig.natural_block_force.get(), AttributeModifier.Operation.ADD_VALUE));
-        hashMultimap.put(BlockingOverhaul.PARRY_MULTIPLIER, new AttributeModifier(BlockingOverhaul.identifier("natural_parry_multiplier_modifier"), serverConfig.natural_parry_multiplier.get(), AttributeModifier.Operation.ADD_VALUE));
-        hashMultimap.put(BlockingOverhaul.PARRY_WINDOW, new AttributeModifier(BlockingOverhaul.identifier("natural_parry_window_modifier"), serverConfig.natural_parry_window.get(), AttributeModifier.Operation.ADD_VALUE));
-        hashMultimap.put(BlockingOverhaul.PARRY_STAMINA_COST, new AttributeModifier(BlockingOverhaul.identifier("natural_action_stamina_cost_attack_parrying_modifier"), serverConfig.natural_action_stamina_cost_attack_parrying.get(), AttributeModifier.Operation.ADD_VALUE));
-        return hashMultimap;
     }
 
 }
