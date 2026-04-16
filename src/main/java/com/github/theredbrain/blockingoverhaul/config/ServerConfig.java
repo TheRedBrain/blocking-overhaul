@@ -18,7 +18,7 @@ public class ServerConfig extends Config {
     public ValidatedBoolean parrying_multiplies_knockback = new ValidatedBoolean(true);
     public ValidatedFloat total_applied_blocking_knockback_multiplier = new ValidatedFloat(1.0F);
 
-    public NaturalPlayerAttributeValuesSection naturalPlayerAttributeValues = new NaturalPlayerAttributeValuesSection();
+    public NaturalPlayerAttributeValuesSection natural_player_attribute_values = new NaturalPlayerAttributeValuesSection();
 
     public static class NaturalPlayerAttributeValuesSection extends ConfigSection {
         public ValidatedFloat natural_block_force = new ValidatedFloat(0.0F);

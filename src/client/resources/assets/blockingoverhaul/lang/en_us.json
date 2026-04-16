@@ -8,24 +8,15 @@
 
 	"blockingoverhaul.server.enable_blocking_overhaul": "Enable Blocking Overhaul",
 
-	"blockingoverhaul.server.parrying_multiplies_blocked_damage": "Jumping requires stamina of at least 1",
-	"blockingoverhaul.server.parrying_multiplies_knockback": "Sprinting requires stamina of at least 1",
-	"blockingoverhaul.server.total_applied_blocking_knockback_multiplier": "Swimming requires stamina of at least 1",
+	"blockingoverhaul.server.parrying_multiplies_blocked_damage": "Parrying Multiplies Blocked Damage",
+	"blockingoverhaul.server.parrying_multiplies_knockback": "Parrying Multiplies Knockback",
+	"blockingoverhaul.server.total_applied_blocking_knockback_multiplier": "Total Applied Blocking Knockback Multiplier",
 
-	"staminaattributes.server.breaking_zero_strength_blocks_costs_stamina": "Instant breaking blocks costs stamina",
-	"staminaattributes.server.breaking_zero_strength_blocks_costs_stamina.desc": "This only applies to blocks with a 'strength' of zero, like grass or flowers.",
-	"staminaattributes.server.enable_attacking_stamina_cost": "Enable stamina cost for block breaking",
-	"staminaattributes.server.enable_attack_blocking_stamina_cost": "Enable stamina cost for blocking attacks",
+	"blockingoverhaul.server.natural_player_attribute_values": "Natural Player Attribute Values",
 
-	"staminaattributes.server.players_can_exhaust": "Players can exhaust",
-	"staminaattributes.server.players_can_exhaust.desc": "When stamina is equal to or lower zero, a status effect is applied.",
-	"staminaattributes.server.exhausted_status_effect_identifier": "Exhaust status effect identifier",
-
-	"blockingoverhaul.server.naturalPlayerAttributeValues": "Natural Player Attribute Values",
-
-	"blockingoverhaul.server.naturalPlayerAttributeValues.natural_block_force": "Block Force",
-	"blockingoverhaul.server.naturalPlayerAttributeValues.natural_parry_multiplier": "Parry Multiplier",
-	"blockingoverhaul.server.naturalPlayerAttributeValues.natural_parry_window": "Parry Window",
-	"blockingoverhaul.server.naturalPlayerAttributeValues.natural_action_stamina_cost_attack_parrying": "Attack Parrying Stamina Cost",
-	"blockingoverhaul.server.naturalPlayerAttributeValues.natural_action_stamina_cost_attack_parrying.desc": "Applied for each action"
+	"blockingoverhaul.server.natural_player_attribute_values.natural_block_force": "Block Force",
+	"blockingoverhaul.server.natural_player_attribute_values.natural_parry_multiplier": "Parry Multiplier",
+	"blockingoverhaul.server.natural_player_attribute_values.natural_parry_window": "Parry Window",
+	"blockingoverhaul.server.natural_player_attribute_values.natural_action_stamina_cost_attack_parrying": "Attack Parrying Stamina Cost",
+	"blockingoverhaul.server.natural_player_attribute_values.natural_action_stamina_cost_attack_parrying.desc": "Applied for each action"
 }
